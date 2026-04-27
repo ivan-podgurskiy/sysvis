@@ -65,7 +65,7 @@ export const architectures: Architecture[] = [
         label: "Client",
         type: "client",
         description: "Mobile / web app",
-        position: { x: 80, y: 300 },
+        position: { x: 60, y: 310 },
         size: "md",
       },
       {
@@ -73,7 +73,7 @@ export const architectures: Architecture[] = [
         label: "API Gateway",
         type: "gateway",
         description: "Rate limiting, routing",
-        position: { x: 280, y: 300 },
+        position: { x: 330, y: 310 },
         size: "md",
       },
       {
@@ -81,7 +81,7 @@ export const architectures: Architecture[] = [
         label: "Auth Service",
         type: "service",
         description: "JWT validation",
-        position: { x: 280, y: 160 },
+        position: { x: 330, y: 130 },
         size: "sm",
       },
       {
@@ -89,7 +89,7 @@ export const architectures: Architecture[] = [
         label: "Tweet Service",
         type: "service",
         description: "Write / read tweets",
-        position: { x: 480, y: 300 },
+        position: { x: 600, y: 310 },
         size: "lg",
       },
       {
@@ -97,7 +97,7 @@ export const architectures: Architecture[] = [
         label: "Kafka",
         type: "queue",
         description: "Event streaming bus",
-        position: { x: 680, y: 300 },
+        position: { x: 900, y: 310 },
         size: "lg",
       },
       {
@@ -105,7 +105,7 @@ export const architectures: Architecture[] = [
         label: "Fanout Worker",
         type: "worker",
         description: "Pushes to follower timelines",
-        position: { x: 880, y: 200 },
+        position: { x: 1170, y: 180 },
         size: "md",
       },
       {
@@ -113,7 +113,7 @@ export const architectures: Architecture[] = [
         label: "Timeline Cache",
         type: "cache",
         description: "Redis — pre-computed timelines",
-        position: { x: 1080, y: 200 },
+        position: { x: 1460, y: 180 },
         size: "md",
       },
       {
@@ -121,7 +121,7 @@ export const architectures: Architecture[] = [
         label: "User DB",
         type: "database",
         description: "Postgres — user profiles",
-        position: { x: 480, y: 460 },
+        position: { x: 600, y: 500 },
         size: "md",
       },
       {
@@ -129,7 +129,7 @@ export const architectures: Architecture[] = [
         label: "Search Indexer",
         type: "index",
         description: "Elasticsearch ingestion",
-        position: { x: 880, y: 400 },
+        position: { x: 1170, y: 430 },
         size: "sm",
       },
       {
@@ -137,7 +137,7 @@ export const architectures: Architecture[] = [
         label: "Notification Service",
         type: "service",
         description: "Push / email alerts",
-        position: { x: 1080, y: 400 },
+        position: { x: 1460, y: 430 },
         size: "sm",
       },
     ],
@@ -301,7 +301,7 @@ export const architectures: Architecture[] = [
         label: "Client",
         type: "client",
         description: "Smart TV / mobile / browser",
-        position: { x: 80, y: 300 },
+        position: { x: 60, y: 310 },
         size: "md",
       },
       {
@@ -309,7 +309,7 @@ export const architectures: Architecture[] = [
         label: "Open Connect",
         type: "cdn",
         description: "CDN edge server — peered ISP",
-        position: { x: 320, y: 180 },
+        position: { x: 380, y: 150 },
         size: "lg",
       },
       {
@@ -317,7 +317,7 @@ export const architectures: Architecture[] = [
         label: "API Gateway",
         type: "gateway",
         description: "Zuul — auth + routing",
-        position: { x: 320, y: 400 },
+        position: { x: 380, y: 450 },
         size: "md",
       },
       {
@@ -325,7 +325,7 @@ export const architectures: Architecture[] = [
         label: "Recommendation",
         type: "service",
         description: "ML-based personalization",
-        position: { x: 560, y: 200 },
+        position: { x: 720, y: 160 },
         size: "lg",
       },
       {
@@ -333,7 +333,7 @@ export const architectures: Architecture[] = [
         label: "Metadata Service",
         type: "service",
         description: "Title info, thumbnails, cast",
-        position: { x: 560, y: 400 },
+        position: { x: 720, y: 420 },
         size: "md",
       },
       {
@@ -341,7 +341,7 @@ export const architectures: Architecture[] = [
         label: "User Service",
         type: "service",
         description: "Profiles, subscription state",
-        position: { x: 560, y: 560 },
+        position: { x: 720, y: 600 },
         size: "md",
       },
       {
@@ -349,7 +349,7 @@ export const architectures: Architecture[] = [
         label: "Playback Manifest",
         type: "service",
         description: "Adaptive bitrate manifest",
-        position: { x: 800, y: 300 },
+        position: { x: 1040, y: 300 },
         size: "md",
       },
       {
@@ -357,7 +357,7 @@ export const architectures: Architecture[] = [
         label: "Encoding Pipeline",
         type: "worker",
         description: "Transcodes to 1200+ profiles",
-        position: { x: 1000, y: 180 },
+        position: { x: 1360, y: 150 },
         size: "lg",
       },
       {
@@ -365,7 +365,7 @@ export const architectures: Architecture[] = [
         label: "S3 Storage",
         type: "storage",
         description: "Source + encoded video chunks",
-        position: { x: 1000, y: 400 },
+        position: { x: 1360, y: 430 },
         size: "md",
       },
     ],
@@ -507,7 +507,7 @@ export const architectures: Architecture[] = [
         label: "Rider App",
         type: "client",
         description: "iOS / Android",
-        position: { x: 80, y: 200 },
+        position: { x: 60, y: 190 },
         size: "md",
       },
       {
@@ -515,7 +515,7 @@ export const architectures: Architecture[] = [
         label: "Driver App",
         type: "client",
         description: "iOS / Android",
-        position: { x: 80, y: 460 },
+        position: { x: 60, y: 490 },
         size: "md",
       },
       {
@@ -523,7 +523,7 @@ export const architectures: Architecture[] = [
         label: "Location Service",
         type: "service",
         description: "GPS ingestion, ~5s heartbeat",
-        position: { x: 320, y: 460 },
+        position: { x: 380, y: 490 },
         size: "md",
       },
       {
@@ -531,7 +531,7 @@ export const architectures: Architecture[] = [
         label: "Geo Index (H3)",
         type: "index",
         description: "Uber H3 hexagonal grid",
-        position: { x: 560, y: 460 },
+        position: { x: 700, y: 490 },
         size: "lg",
       },
       {
@@ -539,7 +539,7 @@ export const architectures: Architecture[] = [
         label: "Matching Service",
         type: "service",
         description: "ETA + driver scoring",
-        position: { x: 560, y: 280 },
+        position: { x: 700, y: 270 },
         size: "lg",
       },
       {
@@ -547,7 +547,7 @@ export const architectures: Architecture[] = [
         label: "Trip Service",
         type: "service",
         description: "Trip state machine",
-        position: { x: 800, y: 200 },
+        position: { x: 1010, y: 160 },
         size: "md",
       },
       {
@@ -555,7 +555,7 @@ export const architectures: Architecture[] = [
         label: "Pricing Service",
         type: "service",
         description: "Surge + base fare calculation",
-        position: { x: 800, y: 420 },
+        position: { x: 1010, y: 440 },
         size: "md",
       },
       {
@@ -563,7 +563,7 @@ export const architectures: Architecture[] = [
         label: "Payment Service",
         type: "service",
         description: "Stripe / Braintree integration",
-        position: { x: 1020, y: 200 },
+        position: { x: 1300, y: 160 },
         size: "md",
       },
       {
@@ -571,7 +571,7 @@ export const architectures: Architecture[] = [
         label: "Notification Service",
         type: "service",
         description: "Push / SMS dispatch",
-        position: { x: 1020, y: 420 },
+        position: { x: 1300, y: 440 },
         size: "sm",
       },
     ],
@@ -700,7 +700,7 @@ export const architectures: Architecture[] = [
         label: "Client",
         type: "client",
         description: "Browser / search app",
-        position: { x: 80, y: 320 },
+        position: { x: 60, y: 330 },
         size: "md",
       },
       {
@@ -708,7 +708,7 @@ export const architectures: Architecture[] = [
         label: "Load Balancer",
         type: "gateway",
         description: "Anycast routing",
-        position: { x: 280, y: 320 },
+        position: { x: 340, y: 330 },
         size: "sm",
       },
       {
@@ -716,7 +716,7 @@ export const architectures: Architecture[] = [
         label: "Query Parser",
         type: "service",
         description: "Tokenization + intent",
-        position: { x: 480, y: 220 },
+        position: { x: 600, y: 210 },
         size: "md",
       },
       {
@@ -724,7 +724,7 @@ export const architectures: Architecture[] = [
         label: "Spell Correction",
         type: "service",
         description: "Did you mean…",
-        position: { x: 480, y: 420 },
+        position: { x: 600, y: 450 },
         size: "sm",
       },
       {
@@ -732,7 +732,7 @@ export const architectures: Architecture[] = [
         label: "Index Shard A",
         type: "index",
         description: "Inverted index partition",
-        position: { x: 720, y: 120 },
+        position: { x: 880, y: 80 },
         size: "md",
       },
       {
@@ -740,7 +740,7 @@ export const architectures: Architecture[] = [
         label: "Index Shard B",
         type: "index",
         description: "Inverted index partition",
-        position: { x: 720, y: 260 },
+        position: { x: 880, y: 230 },
         size: "md",
       },
       {
@@ -748,7 +748,7 @@ export const architectures: Architecture[] = [
         label: "Index Shard C",
         type: "index",
         description: "Inverted index partition",
-        position: { x: 720, y: 400 },
+        position: { x: 880, y: 380 },
         size: "md",
       },
       {
@@ -756,7 +756,7 @@ export const architectures: Architecture[] = [
         label: "Index Shard D",
         type: "index",
         description: "Inverted index partition",
-        position: { x: 720, y: 540 },
+        position: { x: 880, y: 530 },
         size: "md",
       },
       {
@@ -764,7 +764,7 @@ export const architectures: Architecture[] = [
         label: "Ranker",
         type: "service",
         description: "PageRank + ML scoring",
-        position: { x: 960, y: 280 },
+        position: { x: 1160, y: 270 },
         size: "lg",
       },
       {
@@ -772,7 +772,7 @@ export const architectures: Architecture[] = [
         label: "Knowledge Graph",
         type: "database",
         description: "Entity + fact store",
-        position: { x: 960, y: 480 },
+        position: { x: 1160, y: 500 },
         size: "md",
       },
       {
@@ -780,7 +780,7 @@ export const architectures: Architecture[] = [
         label: "Result Cache",
         type: "cache",
         description: "Memcached — popular queries",
-        position: { x: 1160, y: 200 },
+        position: { x: 1460, y: 170 },
         size: "sm",
       },
       {
@@ -788,7 +788,7 @@ export const architectures: Architecture[] = [
         label: "Ads Service",
         type: "service",
         description: "Auction + targeting",
-        position: { x: 1160, y: 440 },
+        position: { x: 1460, y: 440 },
         size: "sm",
       },
     ],
@@ -970,7 +970,7 @@ export const architectures: Architecture[] = [
         label: "Merchant Client",
         type: "client",
         description: "Checkout / API caller",
-        position: { x: 80, y: 300 },
+        position: { x: 60, y: 310 },
         size: "md",
       },
       {
@@ -978,7 +978,7 @@ export const architectures: Architecture[] = [
         label: "API Gateway",
         type: "gateway",
         description: "TLS termination, versioning",
-        position: { x: 300, y: 300 },
+        position: { x: 350, y: 310 },
         size: "md",
       },
       {
@@ -986,7 +986,7 @@ export const architectures: Architecture[] = [
         label: "Idempotency Layer",
         type: "service",
         description: "Deduplication via idempotency keys",
-        position: { x: 520, y: 200 },
+        position: { x: 640, y: 160 },
         size: "md",
       },
       {
@@ -994,7 +994,7 @@ export const architectures: Architecture[] = [
         label: "Fraud Detection",
         type: "service",
         description: "Radar ML — risk scoring",
-        position: { x: 520, y: 400 },
+        position: { x: 640, y: 430 },
         size: "lg",
       },
       {
@@ -1002,7 +1002,7 @@ export const architectures: Architecture[] = [
         label: "Card Network",
         type: "service",
         description: "Visa / Mastercard network",
-        position: { x: 760, y: 200 },
+        position: { x: 960, y: 160 },
         size: "lg",
       },
       {
@@ -1010,7 +1010,7 @@ export const architectures: Architecture[] = [
         label: "Bank Authorization",
         type: "service",
         description: "Issuing bank approval",
-        position: { x: 1000, y: 200 },
+        position: { x: 1270, y: 160 },
         size: "md",
       },
       {
@@ -1018,7 +1018,7 @@ export const architectures: Architecture[] = [
         label: "Ledger Service",
         type: "database",
         description: "Immutable double-entry ledger",
-        position: { x: 760, y: 420 },
+        position: { x: 960, y: 450 },
         size: "md",
       },
       {
@@ -1026,7 +1026,7 @@ export const architectures: Architecture[] = [
         label: "Webhook Dispatcher",
         type: "worker",
         description: "Retry queue + delivery",
-        position: { x: 1000, y: 380 },
+        position: { x: 1270, y: 420 },
         size: "md",
       },
       {
@@ -1034,7 +1034,7 @@ export const architectures: Architecture[] = [
         label: "Merchant Webhook",
         type: "client",
         description: "Merchant's endpoint",
-        position: { x: 1200, y: 380 },
+        position: { x: 1560, y: 420 },
         size: "sm",
       },
     ],

@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# System Design Visualizer
+
+An interactive system design playground for exploring how large-scale products move requests through distributed infrastructure.
+
+The app renders architecture diagrams as animated React Flow canvases, then lets you run step-by-step scenarios that highlight request paths, service interactions, and data movement. It currently includes guided visualizations for:
+
+- Twitter timeline fan-out
+- Netflix streaming and CDN delivery
+- Uber geospatial ride matching
+- Google Search indexing and query serving
+- Stripe payment orchestration
+
+## Tech Stack
+
+- [Next.js](https://nextjs.org) 16 and React 19
+- [React Flow](https://reactflow.dev) for graph rendering
+- [Framer Motion](https://www.framer.com/motion/) for scenario and particle animations
+- Tailwind CSS 4, Geist fonts, and small Radix UI primitives
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+```
+
+Run the local development server:
+
+```bash
 pnpm dev
-# or
-bun dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Available Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+pnpm dev      # Start the development server
+pnpm build    # Create a production build
+pnpm start    # Run the production server
+pnpm lint     # Run ESLint
+```
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```text
+src/app/                         Next.js app entry point and global styles
+src/components/visualizer.tsx     Main visualizer shell and scenario controls
+src/components/graph-canvas/      React Flow canvas, custom nodes, and custom edges
+src/components/detail-panel/      Scenario timeline and step details
+src/components/architecture-selector/
+                                  Architecture picker and preview cards
+src/hooks/use-scenario-runner.ts  Scenario playback state machine
+src/lib/architectures.ts          Architecture graph data and scenario definitions
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Adding Architectures
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+New visualizations are data-driven. Add an entry to `src/lib/architectures.ts` with:
 
-## Deploy on Vercel
+- `nodes`: services, databases, queues, clients, caches, and other system components
+- `edges`: connections between nodes
+- `scenarios`: ordered steps that animate traffic through the graph
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Each scenario step defines a source node, target node, short explanation, color category, and delay. The visualizer uses that data to animate the request path and populate the detail panel.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

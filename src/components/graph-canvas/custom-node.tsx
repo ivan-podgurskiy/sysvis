@@ -63,9 +63,9 @@ const LABEL_ICONS: Record<string, React.ComponentType<{ style?: React.CSSPropert
 };
 
 const SIZE_DIMS: Record<string, { w: number; px: number; py: number }> = {
-  sm: { w: 130, px: 10, py: 9 },
-  md: { w: 150, px: 12, py: 10 },
-  lg: { w: 170, px: 14, py: 11 },
+  sm: { w: 160, px: 12, py: 11 },
+  md: { w: 185, px: 14, py: 12 },
+  lg: { w: 210, px: 16, py: 14 },
 };
 
 export interface CustomNodeData {
@@ -157,16 +157,16 @@ const CustomNode = memo(({ data }: NodeProps) => {
         >
           <IconComp
             style={{
-              width: 13,
-              height: 13,
-              color: d.isActive ? "#22d3ee" : "rgba(255,255,255,0.45)",
+              width: 15,
+              height: 15,
+              color: d.isActive ? "#22d3ee" : "rgba(255,255,255,0.5)",
               flexShrink: 0,
             }}
           />
           <span
             style={{
               fontFamily: "var(--font-geist-mono)",
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 500,
               color: d.isActive ? "#67e8f9" : "#e4e4e7",
               letterSpacing: "-0.01em",
@@ -183,8 +183,8 @@ const CustomNode = memo(({ data }: NodeProps) => {
         <p
           style={{
             fontFamily: "var(--font-geist-sans)",
-            fontSize: 9.5,
-            color: d.isActive ? "rgba(34,211,238,0.55)" : "#52525b",
+            fontSize: 11,
+            color: d.isActive ? "rgba(34,211,238,0.6)" : "#71717a",
             lineHeight: 1.4,
             margin: 0,
             whiteSpace: "nowrap",

@@ -16,6 +16,7 @@ interface ScenarioRunner {
   state: ScenarioState;
   runScenario: (scenario: Scenario) => void;
   stopScenario: () => void;
+  jumpToStep: (index: number) => void;
 }
 
 const STEP_LINGER_MS = 900; // how long a node stays "active" after particle arrives
@@ -117,7 +118,41 @@ export function useScenarioRunner(): ScenarioRunner {
     [clearAll]
   );
 
+  const jumpToStep = useCallback(
+    (index: number) => {
+      clearAll();
+      setState((prev) => {
+        if (!prev.activeScenario) return prev;
+        const steps = prev.activeScenario.steps;
+        const step = steps[index];
+        if (!step) return prev;
+
+        const nextActive = new Set<string>();
+        for (let i = 0; i <= index; i++) {
+          nextActive.add(steps[i].from);
+          nextActive.add(steps[i].to);
+        }
+
+        return {
+          ...prev,
+          currentStepIndex: index,
+          activeStep: step,
+          activeNodes: nextActive,
+          pulsingNodes: new Set([step.to]),
+          isPlaying: false,
+        };
+      });
+
+      // Clear the pulse after linger
+      const t = setTimeout(() => {
+        setState((prev) => ({ ...prev, pulsingNodes: new Set() }));
+      }, STEP_LINGER_MS);
+      timeoutsRef.current.push(t);
+    },
+    [clearAll]
+  );
+
   useEffect(() => () => clearAll(), [clearAll]);
 
-  return { state, runScenario, stopScenario };
+  return { state, runScenario, stopScenario, jumpToStep };
 }

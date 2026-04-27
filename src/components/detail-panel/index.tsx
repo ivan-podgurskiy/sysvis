@@ -36,6 +36,7 @@ interface DetailPanelProps {
   currentStepIndex: number;
   isPlaying: boolean;
   onClose: () => void;
+  onStepClick: (index: number) => void;
 }
 
 export function DetailPanel({
@@ -43,6 +44,7 @@ export function DetailPanel({
   currentStepIndex,
   isPlaying,
   onClose,
+  onStepClick,
 }: DetailPanelProps) {
   return (
     <AnimatePresence>
@@ -99,11 +101,11 @@ export function DetailPanel({
                 style={{
                   display: "block",
                   fontFamily: "var(--font-geist-mono)",
-                  fontSize: 9,
+                  fontSize: 10,
                   color: "#52525b",
                   textTransform: "uppercase",
                   letterSpacing: "0.1em",
-                  marginBottom: 4,
+                  marginBottom: 5,
                 }}
               >
                 Scenario
@@ -111,7 +113,7 @@ export function DetailPanel({
               <h3
                 style={{
                   fontFamily: "var(--font-geist-sans)",
-                  fontSize: 14,
+                  fontSize: 17,
                   fontWeight: 600,
                   letterSpacing: "-0.025em",
                   color: "#fafafa",
@@ -185,7 +187,7 @@ export function DetailPanel({
               <span
                 style={{
                   fontFamily: "var(--font-geist-mono)",
-                  fontSize: 9,
+                  fontSize: 11,
                   color: "#52525b",
                 }}
               >
@@ -196,7 +198,7 @@ export function DetailPanel({
                 <motion.span
                   style={{
                     fontFamily: "var(--font-geist-mono)",
-                    fontSize: 9,
+                    fontSize: 11,
                     color: "#a78bfa",
                     letterSpacing: "0.08em",
                     textTransform: "uppercase",
@@ -228,6 +230,7 @@ export function DetailPanel({
                 index={i}
                 isCurrent={i === currentStepIndex}
                 isDone={i < currentStepIndex}
+                onClick={() => onStepClick(i)}
               />
             ))}
           </div>
@@ -242,16 +245,19 @@ function StepItem({
   index,
   isCurrent,
   isDone,
+  onClick,
 }: {
   step: ScenarioStep;
   index: number;
   isCurrent: boolean;
   isDone: boolean;
+  onClick: () => void;
 }) {
   const badge = COLOR_BADGE[step.color] ?? COLOR_BADGE.read;
 
   return (
     <motion.div
+      onClick={onClick}
       initial={{ opacity: 0, x: 10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{
@@ -260,6 +266,12 @@ function StepItem({
         stiffness: 220,
         damping: 22,
       }}
+      whileHover={{
+        borderColor: isCurrent ? "rgba(167,139,250,0.5)" : "rgba(255,255,255,0.14)",
+        background: isCurrent ? "rgba(167,139,250,0.07)" : "rgba(255,255,255,0.035)",
+        opacity: 1,
+      }}
+      whileTap={{ scale: 0.985 }}
       style={{
         position: "relative",
         borderRadius: 8,
@@ -273,6 +285,7 @@ function StepItem({
           ? "transparent"
           : "rgba(255,255,255,0.015)",
         opacity: isDone ? 0.48 : 1,
+        cursor: "pointer",
       }}
     >
       {/* Current item top glow */}
@@ -305,7 +318,7 @@ function StepItem({
         <span
           style={{
             fontFamily: "var(--font-geist-mono)",
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 500,
             color: isCurrent ? "#e4e4e7" : "#71717a",
             whiteSpace: "nowrap",
@@ -318,8 +331,8 @@ function StepItem({
         </span>
         <ArrowRight
           style={{
-            width: 10,
-            height: 10,
+            width: 11,
+            height: 11,
             color: "#3f3f46",
             flexShrink: 0,
           }}
@@ -327,7 +340,7 @@ function StepItem({
         <span
           style={{
             fontFamily: "var(--font-geist-mono)",
-            fontSize: 10,
+            fontSize: 12,
             fontWeight: 500,
             color: isCurrent ? "#e4e4e7" : "#71717a",
             whiteSpace: "nowrap",
@@ -341,9 +354,9 @@ function StepItem({
         <span
           style={{
             fontFamily: "var(--font-geist-mono)",
-            fontSize: 8,
+            fontSize: 10,
             fontWeight: 500,
-            padding: "2px 6px",
+            padding: "2px 7px",
             borderRadius: 4,
             background: badge.bg,
             color: badge.color,
@@ -360,7 +373,7 @@ function StepItem({
       <p
         style={{
           fontFamily: "var(--font-geist-sans)",
-          fontSize: 11,
+          fontSize: 13,
           color: isCurrent ? "#a1a1aa" : "#52525b",
           lineHeight: 1.55,
           margin: 0,
@@ -379,11 +392,11 @@ function StepItem({
             marginTop: 6,
           }}
         >
-          <Clock style={{ width: 9, height: 9, color: "#3f3f46" }} />
+          <Clock style={{ width: 10, height: 10, color: "#3f3f46" }} />
           <span
             style={{
               fontFamily: "var(--font-geist-mono)",
-              fontSize: 9,
+              fontSize: 11,
               color: "#3f3f46",
             }}
           >

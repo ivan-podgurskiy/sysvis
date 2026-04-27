@@ -17,7 +17,7 @@ export function Visualizer() {
   const [muted, setMuted] = useState(true);
 
   const activeArch = getArchitecture(activeArchId)!;
-  const { state, runScenario, stopScenario } = useScenarioRunner();
+  const { state, runScenario, stopScenario, jumpToStep } = useScenarioRunner();
 
   const panelOpen = !!state.activeScenario;
   const PANEL_WIDTH = 380;
@@ -239,6 +239,7 @@ export function Visualizer() {
           currentStepIndex={state.currentStepIndex}
           isPlaying={state.isPlaying}
           onClose={stopScenario}
+          onStepClick={jumpToStep}
         />
       </div>
 
@@ -246,7 +247,7 @@ export function Visualizer() {
       <div
         style={{
           flexShrink: 0,
-          padding: "12px 24px",
+          padding: "14px 24px",
           borderTop: "1px solid rgba(255,255,255,0.06)",
         }}
       >
@@ -254,11 +255,11 @@ export function Visualizer() {
           <span
             style={{
               fontFamily: "var(--font-geist-mono)",
-              fontSize: 10,
+              fontSize: 11,
               color: "#52525b",
               letterSpacing: "0.1em",
               textTransform: "uppercase",
-              marginRight: 4,
+              marginRight: 8,
             }}
           >
             Scenarios
@@ -350,9 +351,9 @@ function ScenarioButton({
       }
       style={{
         position: "relative",
-        padding: "6px 14px",
+        padding: "8px 20px",
         borderRadius: 99,
-        fontSize: 11,
+        fontSize: 13,
         fontWeight: 500,
         fontFamily: "var(--font-geist-sans)",
         letterSpacing: "-0.01em",

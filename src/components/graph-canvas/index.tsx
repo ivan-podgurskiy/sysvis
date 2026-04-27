@@ -12,6 +12,8 @@ import {
   type Edge,
   type ReactFlowInstance,
 } from "@xyflow/react";
+import { Plus, Minus } from "lucide-react";
+import { motion } from "framer-motion";
 import "@xyflow/react/dist/style.css";
 import { useState, useCallback, useEffect, useMemo, useRef } from "react";
 import { AnimatePresence } from "framer-motion";
@@ -24,13 +26,61 @@ import type { Architecture, ScenarioStep } from "@/lib/architectures";
 const nodeTypes = { custom: CustomNode };
 const edgeTypes = { custom: CustomEdge };
 
-const NODE_HEIGHT_BY_SIZE: Record<string, number> = { sm: 56, md: 64, lg: 72 };
-const NODE_WIDTH_BY_SIZE: Record<string, number> = { sm: 130, md: 150, lg: 170 };
+const NODE_HEIGHT_BY_SIZE: Record<string, number> = { sm: 68, md: 78, lg: 90 };
+const NODE_WIDTH_BY_SIZE: Record<string, number> = { sm: 160, md: 185, lg: 210 };
 
 interface ActiveParticle {
   id: string;
   step: ScenarioStep;
   pathD: string;
+}
+
+function ZoomControls() {
+  const { zoomIn, zoomOut } = useReactFlow();
+
+  const btnStyle: React.CSSProperties = {
+    width: 28,
+    height: 28,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    background: "rgba(255,255,255,0.04)",
+    border: "1px solid rgba(255,255,255,0.1)",
+    borderRadius: 6,
+    cursor: "pointer",
+    color: "#71717a",
+  };
+
+  return (
+    <div
+      style={{
+        position: "absolute",
+        bottom: 16,
+        right: 16,
+        display: "flex",
+        flexDirection: "column",
+        gap: 4,
+        zIndex: 20,
+      }}
+    >
+      <motion.button
+        style={btnStyle}
+        whileHover={{ borderColor: "rgba(255,255,255,0.22)", color: "#a1a1aa" }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => zoomIn({ duration: 200 })}
+      >
+        <Plus style={{ width: 13, height: 13 }} />
+      </motion.button>
+      <motion.button
+        style={btnStyle}
+        whileHover={{ borderColor: "rgba(255,255,255,0.22)", color: "#a1a1aa" }}
+        whileTap={{ scale: 0.9 }}
+        onClick={() => zoomOut({ duration: 200 })}
+      >
+        <Minus style={{ width: 13, height: 13 }} />
+      </motion.button>
+    </div>
+  );
 }
 
 // Rendered inside ReactFlow context — correct viewport transform
@@ -144,7 +194,12 @@ function FlowInner({
     return () => obs.disconnect();
   }, [fitView, containerRef]);
 
-  return <ParticleLayer activeStep={activeStep} archNodes={archNodes} />;
+  return (
+    <>
+      <ParticleLayer activeStep={activeStep} archNodes={archNodes} />
+      <ZoomControls />
+    </>
+  );
 }
 
 interface GraphCanvasProps {
@@ -222,9 +277,9 @@ export function GraphCanvas({
         nodesDraggable={false}
         nodesConnectable={false}
         elementsSelectable={false}
-        panOnDrag={false}
-        zoomOnScroll={false}
-        zoomOnPinch={false}
+        panOnDrag={true}
+        zoomOnScroll={true}
+        zoomOnPinch={true}
         zoomOnDoubleClick={false}
         proOptions={{ hideAttribution: true }}
         style={{ background: "transparent" }}
