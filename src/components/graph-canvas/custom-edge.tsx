@@ -66,7 +66,7 @@ function CustomEdge({
       <path
         d={edgePath}
         fill="none"
-        stroke="rgba(255,255,255,0.13)"
+        stroke="var(--edge-base)"
         strokeWidth={1.2}
         strokeLinecap="round"
       />

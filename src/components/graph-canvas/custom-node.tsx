@@ -63,9 +63,9 @@ const LABEL_ICONS: Record<string, React.ComponentType<{ style?: React.CSSPropert
 };
 
 const SIZE_DIMS: Record<string, { w: number; px: number; py: number }> = {
-  sm: { w: 160, px: 12, py: 11 },
-  md: { w: 185, px: 14, py: 12 },
-  lg: { w: 210, px: 16, py: 14 },
+  sm: { w: 160, px: 12, py: 12 },
+  md: { w: 185, px: 14, py: 13 },
+  lg: { w: 210, px: 16, py: 15 },
 };
 
 export interface CustomNodeData {
@@ -83,11 +83,6 @@ const CustomNode = memo(({ data }: NodeProps) => {
   const dims = SIZE_DIMS[size];
   const IconComp = LABEL_ICONS[d.label] ?? TYPE_ICONS[d.nodeType] ?? Cpu;
 
-  const activeBorder = "rgba(34,211,238,0.55)";
-  const baseBorder = "rgba(255,255,255,0.1)";
-  const activeBg = "rgba(34,211,238,0.06)";
-  const baseBg = "rgba(255,255,255,0.03)";
-
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.75 }}
@@ -99,17 +94,14 @@ const CustomNode = memo(({ data }: NodeProps) => {
         width: dims.w,
         padding: `${dims.py}px ${dims.px}px`,
         borderRadius: 8,
-        border: `1px solid ${d.isActive ? activeBorder : baseBorder}`,
-        background: d.isActive ? activeBg : baseBg,
+        border: `1px solid ${d.isActive ? "var(--node-active-border)" : "var(--node-border)"}`,
+        background: d.isActive ? "var(--node-active-bg)" : "var(--node-bg)",
         backdropFilter: "blur(20px)",
         WebkitBackdropFilter: "blur(20px)",
         cursor: "default",
-        boxShadow: d.isActive
-          ? `0 0 0 1px rgba(34,211,238,0.2), 0 4px 24px rgba(34,211,238,0.1), inset 0 1px 0 rgba(255,255,255,0.08)`
-          : `inset 0 1px 0 rgba(255,255,255,0.07), 0 2px 8px rgba(0,0,0,0.4)`,
+        boxShadow: d.isActive ? "var(--node-active-glow)" : "var(--node-shadow)",
       }}
     >
-      {/* Pulse ring on arrival */}
       <AnimatePresence>
         {d.isPulsing && (
           <motion.div
@@ -117,7 +109,7 @@ const CustomNode = memo(({ data }: NodeProps) => {
               position: "absolute",
               inset: -1,
               borderRadius: 9,
-              border: "1px solid rgba(34,211,238,0.7)",
+              border: "1px solid var(--node-pulse)",
               pointerEvents: "none",
             }}
             initial={{ opacity: 1, scale: 1 }}
@@ -128,7 +120,6 @@ const CustomNode = memo(({ data }: NodeProps) => {
         )}
       </AnimatePresence>
 
-      {/* Top inset glow */}
       <div
         style={{
           position: "absolute",
@@ -136,7 +127,7 @@ const CustomNode = memo(({ data }: NodeProps) => {
           left: "20%",
           right: "20%",
           height: 1,
-          background: "rgba(255,255,255,0.1)",
+          background: "var(--node-inset-line)",
           borderRadius: "0 0 4px 4px",
           pointerEvents: "none",
         }}
@@ -146,45 +137,46 @@ const CustomNode = memo(({ data }: NodeProps) => {
         animate={d.isActive ? { scale: [1, 1.025, 1] } : { scale: 1 }}
         transition={d.isActive ? { duration: 0.35 } : { duration: 0.2 }}
       >
-        {/* Icon + name row */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: 6,
             marginBottom: 4,
+            minWidth: 0,
           }}
         >
           <IconComp
             style={{
-              width: 15,
-              height: 15,
-              color: d.isActive ? "#22d3ee" : "rgba(255,255,255,0.5)",
+              width: 16,
+              height: 16,
+              color: d.isActive ? "var(--accent-cyan)" : "var(--node-icon)",
               flexShrink: 0,
             }}
           />
           <span
             style={{
               fontFamily: "var(--font-geist-mono)",
-              fontSize: 12,
+              fontSize: "var(--text-sm)",
               fontWeight: 500,
-              color: d.isActive ? "#67e8f9" : "#e4e4e7",
+              color: d.isActive ? "var(--accent-cyan-soft)" : "var(--text-primary)",
               letterSpacing: "-0.01em",
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              minWidth: 0,
             }}
           >
             {d.label}
           </span>
         </div>
 
-        {/* Description */}
         <p
           style={{
             fontFamily: "var(--font-geist-sans)",
-            fontSize: 11,
-            color: d.isActive ? "rgba(34,211,238,0.6)" : "#71717a",
+            fontSize: "var(--text-xs)",
+            color: d.isActive ? "var(--accent-cyan-soft)" : "var(--text-muted)",
+            opacity: d.isActive ? 0.85 : 1,
             lineHeight: 1.4,
             margin: 0,
             whiteSpace: "nowrap",
@@ -196,7 +188,6 @@ const CustomNode = memo(({ data }: NodeProps) => {
         </p>
       </motion.div>
 
-      {/* Handles — invisible */}
       <Handle
         type="target"
         position={Position.Left}

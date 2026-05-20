@@ -7,27 +7,27 @@ import type { Scenario, ScenarioStep } from "@/lib/architectures";
 const COLOR_BADGE: Record<string, { label: string; bg: string; color: string; border: string }> = {
   write: {
     label: "WRITE",
-    bg: "rgba(124,58,237,0.12)",
-    color: "#c4b5fd",
-    border: "rgba(167,139,250,0.3)",
+    bg: "var(--badge-write-bg)",
+    color: "var(--badge-write-color)",
+    border: "var(--badge-write-border)",
   },
   read: {
     label: "READ",
-    bg: "rgba(8,145,178,0.1)",
-    color: "#67e8f9",
-    border: "rgba(34,211,238,0.25)",
+    bg: "var(--badge-read-bg)",
+    color: "var(--badge-read-color)",
+    border: "var(--badge-read-border)",
   },
   process: {
     label: "PROC",
-    bg: "rgba(124,58,237,0.08)",
-    color: "#a78bfa",
-    border: "rgba(167,139,250,0.2)",
+    bg: "var(--badge-proc-bg)",
+    color: "var(--badge-proc-color)",
+    border: "var(--badge-proc-border)",
   },
   error: {
     label: "ERR",
-    bg: "rgba(220,38,38,0.1)",
-    color: "#fca5a5",
-    border: "rgba(248,113,113,0.3)",
+    bg: "var(--badge-err-bg)",
+    color: "var(--badge-err-color)",
+    border: "var(--badge-err-border)",
   },
 };
 
@@ -37,6 +37,7 @@ interface DetailPanelProps {
   isPlaying: boolean;
   onClose: () => void;
   onStepClick: (index: number) => void;
+  width?: number;
 }
 
 export function DetailPanel({
@@ -45,6 +46,7 @@ export function DetailPanel({
   isPlaying,
   onClose,
   onStepClick,
+  width = 392,
 }: DetailPanelProps) {
   return (
     <AnimatePresence>
@@ -59,19 +61,18 @@ export function DetailPanel({
             top: 0,
             right: 0,
             bottom: 0,
-            width: 380,
-            borderLeft: "1px solid rgba(255,255,255,0.07)",
-            background: "rgba(10,10,15,0.95)",
+            width,
+            borderLeft: "1px solid var(--border-subtle)",
+            background: "var(--panel-bg)",
             backdropFilter: "blur(28px)",
             WebkitBackdropFilter: "blur(28px)",
             display: "flex",
             flexDirection: "column",
             zIndex: 20,
-            boxShadow:
-              "-24px 0 64px rgba(0,0,0,0.55), inset 1px 0 0 rgba(255,255,255,0.04)",
+            boxShadow: "var(--panel-shadow)",
+            minWidth: 0,
           }}
         >
-          {/* Top inset highlight */}
           <div
             style={{
               position: "absolute",
@@ -79,30 +80,30 @@ export function DetailPanel({
               left: 0,
               right: 0,
               height: 1,
-              background:
-                "linear-gradient(to right, transparent, rgba(255,255,255,0.07), transparent)",
+              background: "var(--panel-highlight)",
               pointerEvents: "none",
             }}
           />
 
-          {/* Header */}
           <div
             style={{
               display: "flex",
               alignItems: "flex-start",
               justifyContent: "space-between",
               padding: "18px 20px 14px",
-              borderBottom: "1px solid rgba(255,255,255,0.06)",
+              borderBottom: "1px solid var(--border-subtle)",
               flexShrink: 0,
+              minWidth: 0,
+              gap: 12,
             }}
           >
-            <div>
+            <div style={{ minWidth: 0, flex: 1 }}>
               <span
                 style={{
                   display: "block",
                   fontFamily: "var(--font-geist-mono)",
-                  fontSize: 10,
-                  color: "#52525b",
+                  fontSize: "var(--text-2xs)",
+                  color: "var(--text-tertiary)",
                   textTransform: "uppercase",
                   letterSpacing: "0.1em",
                   marginBottom: 5,
@@ -113,11 +114,14 @@ export function DetailPanel({
               <h3
                 style={{
                   fontFamily: "var(--font-geist-sans)",
-                  fontSize: 17,
+                  fontSize: "var(--text-xl)",
                   fontWeight: 600,
                   letterSpacing: "-0.025em",
-                  color: "#fafafa",
+                  color: "var(--text-primary)",
                   margin: 0,
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  whiteSpace: "nowrap",
                 }}
               >
                 {scenario.label}
@@ -125,29 +129,18 @@ export function DetailPanel({
             </div>
 
             <motion.button
+              type="button"
+              aria-label="Close scenario"
               onClick={onClose}
-              whileHover={{ background: "rgba(255,255,255,0.06)" }}
+              whileHover={{ background: "var(--glass-bg-hover)" }}
               whileTap={{ scale: 0.92 }}
-              style={{
-                width: 26,
-                height: 26,
-                borderRadius: 6,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                border: "1px solid rgba(255,255,255,0.08)",
-                background: "transparent",
-                color: "#52525b",
-                cursor: "pointer",
-                marginTop: 2,
-                flexShrink: 0,
-              }}
+              className="icon-btn"
+              style={{ marginTop: 2 }}
             >
-              <X style={{ width: 12, height: 12 }} />
+              <X style={{ width: 13, height: 13 }} />
             </motion.button>
           </div>
 
-          {/* Progress segments */}
           <div style={{ padding: "12px 20px 8px", flexShrink: 0 }}>
             <div style={{ display: "flex", gap: 3 }}>
               {scenario.steps.map((_, i) => (
@@ -159,10 +152,10 @@ export function DetailPanel({
                     borderRadius: 99,
                     background:
                       i < currentStepIndex
-                        ? "rgba(167,139,250,0.9)"
+                        ? "var(--progress-done)"
                         : i === currentStepIndex
-                        ? "rgba(167,139,250,0.55)"
-                        : "rgba(255,255,255,0.07)",
+                        ? "var(--progress-current)"
+                        : "var(--progress-idle)",
                   }}
                   animate={
                     i === currentStepIndex && isPlaying
@@ -187,8 +180,8 @@ export function DetailPanel({
               <span
                 style={{
                   fontFamily: "var(--font-geist-mono)",
-                  fontSize: 11,
-                  color: "#52525b",
+                  fontSize: "var(--text-xs)",
+                  color: "var(--text-tertiary)",
                 }}
               >
                 Step {Math.min(currentStepIndex + 1, scenario.steps.length)}/
@@ -198,8 +191,8 @@ export function DetailPanel({
                 <motion.span
                   style={{
                     fontFamily: "var(--font-geist-mono)",
-                    fontSize: 11,
-                    color: "#a78bfa",
+                    fontSize: "var(--text-xs)",
+                    color: "var(--accent-violet)",
                     letterSpacing: "0.08em",
                     textTransform: "uppercase",
                   }}
@@ -212,7 +205,6 @@ export function DetailPanel({
             </div>
           </div>
 
-          {/* Step list */}
           <div
             style={{
               flex: 1,
@@ -221,6 +213,7 @@ export function DetailPanel({
               display: "flex",
               flexDirection: "column",
               gap: 6,
+              minHeight: 0,
             }}
           >
             {scenario.steps.map((step, i) => (
@@ -267,8 +260,12 @@ function StepItem({
         damping: 22,
       }}
       whileHover={{
-        borderColor: isCurrent ? "rgba(167,139,250,0.5)" : "rgba(255,255,255,0.14)",
-        background: isCurrent ? "rgba(167,139,250,0.07)" : "rgba(255,255,255,0.035)",
+        borderColor: isCurrent
+          ? "rgba(167,139,250,0.5)"
+          : "var(--border-hover)",
+        background: isCurrent
+          ? "rgba(167,139,250,0.07)"
+          : "var(--glass-bg-hover)",
         opacity: 1,
       }}
       whileTap={{ scale: 0.985 }}
@@ -277,18 +274,18 @@ function StepItem({
         borderRadius: 8,
         padding: "10px 12px",
         border: isCurrent
-          ? "1px solid rgba(167,139,250,0.28)"
-          : "1px solid rgba(255,255,255,0.055)",
+          ? "1px solid var(--border-active)"
+          : "1px solid var(--border-base)",
         background: isCurrent
           ? "rgba(167,139,250,0.04)"
           : isDone
           ? "transparent"
-          : "rgba(255,255,255,0.015)",
+          : "var(--glass-bg)",
         opacity: isDone ? 0.48 : 1,
         cursor: "pointer",
+        minWidth: 0,
       }}
     >
-      {/* Current item top glow */}
       {isCurrent && (
         <div
           style={{
@@ -304,49 +301,49 @@ function StepItem({
         />
       )}
 
-      {/* From → To + badge */}
       <div
         style={{
           display: "flex",
           alignItems: "center",
           gap: 6,
           marginBottom: 6,
-          flexWrap: "nowrap",
-          overflow: "hidden",
+          minWidth: 0,
         }}
       >
         <span
           style={{
             fontFamily: "var(--font-geist-mono)",
-            fontSize: 12,
+            fontSize: "var(--text-sm)",
             fontWeight: 500,
-            color: isCurrent ? "#e4e4e7" : "#71717a",
+            color: isCurrent ? "var(--text-primary)" : "var(--text-muted)",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
             maxWidth: "36%",
+            minWidth: 0,
           }}
         >
           {step.from}
         </span>
         <ArrowRight
           style={{
-            width: 11,
-            height: 11,
-            color: "#3f3f46",
+            width: 12,
+            height: 12,
+            color: "var(--text-faint)",
             flexShrink: 0,
           }}
         />
         <span
           style={{
             fontFamily: "var(--font-geist-mono)",
-            fontSize: 12,
+            fontSize: "var(--text-sm)",
             fontWeight: 500,
-            color: isCurrent ? "#e4e4e7" : "#71717a",
+            color: isCurrent ? "var(--text-primary)" : "var(--text-muted)",
             whiteSpace: "nowrap",
             overflow: "hidden",
             textOverflow: "ellipsis",
             flex: 1,
+            minWidth: 0,
           }}
         >
           {step.to}
@@ -354,7 +351,7 @@ function StepItem({
         <span
           style={{
             fontFamily: "var(--font-geist-mono)",
-            fontSize: 10,
+            fontSize: "var(--text-2xs)",
             fontWeight: 500,
             padding: "2px 7px",
             borderRadius: 4,
@@ -369,12 +366,11 @@ function StepItem({
         </span>
       </div>
 
-      {/* Description */}
       <p
         style={{
           fontFamily: "var(--font-geist-sans)",
-          fontSize: 13,
-          color: isCurrent ? "#a1a1aa" : "#52525b",
+          fontSize: "var(--text-base)",
+          color: isCurrent ? "var(--text-secondary)" : "var(--text-tertiary)",
           lineHeight: 1.55,
           margin: 0,
         }}
@@ -382,7 +378,6 @@ function StepItem({
         {step.description}
       </p>
 
-      {/* Delay indicator */}
       {step.delayMs > 0 && (
         <div
           style={{
@@ -392,12 +387,12 @@ function StepItem({
             marginTop: 6,
           }}
         >
-          <Clock style={{ width: 10, height: 10, color: "#3f3f46" }} />
+          <Clock style={{ width: 11, height: 11, color: "var(--text-faint)" }} />
           <span
             style={{
               fontFamily: "var(--font-geist-mono)",
-              fontSize: 11,
-              color: "#3f3f46",
+              fontSize: "var(--text-xs)",
+              color: "var(--text-faint)",
             }}
           >
             +{step.delayMs}ms

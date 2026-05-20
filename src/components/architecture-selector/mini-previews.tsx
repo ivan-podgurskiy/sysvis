@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 
-// Shared timing variants
 const fadeIn = (delay = 0) => ({
   initial: { opacity: 0 },
   animate: { opacity: 1 },
@@ -28,7 +27,8 @@ export function TwitterPreview() {
           y1={center.y}
           x2={s.x}
           y2={s.y}
-          stroke={`rgba(167,139,250,${0.2 + i * 0.05})`}
+          stroke="var(--preview-line)"
+          strokeOpacity={0.2 + i * 0.05}
           strokeWidth="1"
           initial={{ pathLength: 0 }}
           animate={{ pathLength: 1 }}
@@ -39,7 +39,7 @@ export function TwitterPreview() {
         cx={center.x}
         cy={center.y}
         r={6}
-        fill="#a78bfa"
+        fill="var(--preview-accent)"
         {...fadeIn(0)}
       />
       {spokes.map((s, i) => (
@@ -48,7 +48,8 @@ export function TwitterPreview() {
           cx={s.x}
           cy={s.y}
           r={3}
-          fill={`rgba(167,139,250,${0.4 + i * 0.06})`}
+          fill="var(--preview-accent)"
+          fillOpacity={0.4 + i * 0.06}
           {...fadeIn(i * 0.07 + 0.15)}
         />
       ))}
@@ -66,11 +67,16 @@ export function NetflixPreview() {
       ].map((r, i) => (
         <motion.rect
           key={i}
-          x={r.x} y={r.y} width={r.w} height={r.h}
+          x={r.x}
+          y={r.y}
+          width={r.w}
+          height={r.h}
           rx={3}
-          stroke={`rgba(34,211,238,${0.18 + i * 0.18})`}
+          stroke="var(--accent-cyan)"
+          strokeOpacity={0.18 + i * 0.18}
           strokeWidth="1"
-          fill={`rgba(34,211,238,${0.02 + i * 0.02})`}
+          fill="var(--accent-cyan)"
+          fillOpacity={0.02 + i * 0.02}
           initial={{ opacity: 0, scale: 0.92 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: i * 0.09, duration: 0.35, ease: "easeOut" }}
@@ -78,15 +84,18 @@ export function NetflixPreview() {
         />
       ))}
       <motion.circle
-        cx={75} cy={50} r={7}
-        fill="#22d3ee"
+        cx={75}
+        cy={50}
+        r={7}
+        fill="var(--accent-cyan)"
         initial={{ scale: 0 }}
         animate={{ scale: [0, 1.2, 1] }}
         transition={{ delay: 0.35, duration: 0.45 }}
       />
       <motion.path
         d="M 71 50 L 78 46 L 78 54 Z"
-        fill="rgba(10,10,15,0.8)"
+        fill="var(--bg-base)"
+        fillOpacity={0.85}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
@@ -98,38 +107,65 @@ export function NetflixPreview() {
 export function UberPreview() {
   return (
     <svg width="150" height="100" viewBox="0 0 150 100" fill="none">
-      {/* Rider */}
-      <motion.circle cx={22} cy={35} r={7} fill="rgba(167,139,250,0.7)"
-        initial={{ scale: 0 }} animate={{ scale: 1 }}
+      <motion.circle
+        cx={22}
+        cy={35}
+        r={7}
+        fill="var(--preview-accent)"
+        fillOpacity={0.7}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 220, delay: 0 }}
       />
-      {/* Driver */}
-      <motion.circle cx={22} cy={68} r={7} fill="rgba(34,211,238,0.7)"
-        initial={{ scale: 0 }} animate={{ scale: 1 }}
+      <motion.circle
+        cx={22}
+        cy={68}
+        r={7}
+        fill="var(--accent-cyan)"
+        fillOpacity={0.7}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 220, delay: 0.1 }}
       />
-      {/* Match point */}
-      <motion.circle cx={128} cy={51} r={9} fill="rgba(167,139,250,0.85)"
-        initial={{ scale: 0 }} animate={{ scale: 1 }}
+      <motion.circle
+        cx={128}
+        cy={51}
+        r={9}
+        fill="var(--preview-accent)"
+        fillOpacity={0.85}
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
         transition={{ type: "spring", stiffness: 220, delay: 0.3 }}
       />
-      {/* Paths converging */}
-      <motion.path d="M 29 35 C 60 10 100 30 120 46"
-        stroke="rgba(167,139,250,0.4)" strokeWidth="1.5" fill="none"
+      <motion.path
+        d="M 29 35 C 60 10 100 30 120 46"
+        stroke="var(--preview-line)"
+        strokeWidth="1.5"
+        fill="none"
         strokeDasharray="4 3"
-        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
         transition={{ delay: 0.4, duration: 0.5 }}
       />
-      <motion.path d="M 29 68 C 60 90 100 72 120 56"
-        stroke="rgba(34,211,238,0.4)" strokeWidth="1.5" fill="none"
+      <motion.path
+        d="M 29 68 C 60 90 100 72 120 56"
+        stroke="var(--preview-cyan)"
+        strokeWidth="1.5"
+        fill="none"
         strokeDasharray="4 3"
-        initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+        initial={{ pathLength: 0 }}
+        animate={{ pathLength: 1 }}
         transition={{ delay: 0.5, duration: 0.5 }}
       />
-      {/* Match pulse */}
-      <motion.circle cx={128} cy={51} r={14} fill="none"
-        stroke="rgba(167,139,250,0.3)" strokeWidth="1"
-        initial={{ scale: 0.5, opacity: 0.8 }} animate={{ scale: 1.4, opacity: 0 }}
+      <motion.circle
+        cx={128}
+        cy={51}
+        r={14}
+        fill="none"
+        stroke="var(--preview-line)"
+        strokeWidth="1"
+        initial={{ scale: 0.5, opacity: 0.8 }}
+        animate={{ scale: 1.4, opacity: 0 }}
         transition={{ delay: 0.7, duration: 0.8, repeat: Infinity, repeatDelay: 1.2 }}
       />
     </svg>
@@ -140,36 +176,62 @@ export function GooglePreview() {
   const shards = [18, 34, 50, 66];
   return (
     <svg width="150" height="100" viewBox="0 0 150 100" fill="none">
-      {/* Source node */}
-      <motion.circle cx={18} cy={50} r={6} fill="rgba(167,139,250,0.8)"
+      <motion.circle
+        cx={18}
+        cy={50}
+        r={6}
+        fill="var(--preview-accent)"
+        fillOpacity={0.8}
         {...fadeIn(0)}
       />
-      {/* Shard nodes */}
       {shards.map((y, i) => (
         <g key={i}>
           <motion.line
-            x1={24} y1={50} x2={72} y2={y}
-            stroke="rgba(167,139,250,0.22)" strokeWidth="1"
-            initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+            x1={24}
+            y1={50}
+            x2={72}
+            y2={y}
+            stroke="var(--preview-line)"
+            strokeWidth="1"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
             transition={{ delay: i * 0.05 + 0.1, duration: 0.28 }}
           />
           <motion.rect
-            x={72} y={y - 6} width={34} height={12} rx={3}
-            fill="rgba(34,211,238,0.06)" stroke="rgba(34,211,238,0.28)" strokeWidth="0.8"
-            initial={{ opacity: 0, scaleX: 0 }} animate={{ opacity: 1, scaleX: 1 }}
+            x={72}
+            y={y - 6}
+            width={34}
+            height={12}
+            rx={3}
+            fill="var(--accent-cyan)"
+            fillOpacity={0.06}
+            stroke="var(--accent-cyan)"
+            strokeOpacity={0.28}
+            strokeWidth="0.8"
+            initial={{ opacity: 0, scaleX: 0 }}
+            animate={{ opacity: 1, scaleX: 1 }}
             transition={{ delay: i * 0.06 + 0.18, duration: 0.28 }}
             style={{ transformOrigin: "72px 50px" } as React.CSSProperties}
           />
           <motion.line
-            x1={106} y1={y} x2={132} y2={50}
-            stroke="rgba(34,211,238,0.22)" strokeWidth="1"
-            initial={{ pathLength: 0 }} animate={{ pathLength: 1 }}
+            x1={106}
+            y1={y}
+            x2={132}
+            y2={50}
+            stroke="var(--preview-cyan)"
+            strokeWidth="1"
+            initial={{ pathLength: 0 }}
+            animate={{ pathLength: 1 }}
             transition={{ delay: i * 0.06 + 0.32, duration: 0.22 }}
           />
         </g>
       ))}
-      {/* Ranker node */}
-      <motion.circle cx={132} cy={50} r={7} fill="rgba(34,211,238,0.8)"
+      <motion.circle
+        cx={132}
+        cy={50}
+        r={7}
+        fill="var(--accent-cyan)"
+        fillOpacity={0.8}
         {...fadeIn(0.5)}
       />
     </svg>
@@ -193,9 +255,10 @@ export function StripePreview() {
     <svg width="150" height="100" viewBox="0 0 150 100" fill="none">
       <motion.path
         d={d}
-        stroke="rgba(167,139,250,0.35)"
+        stroke="var(--preview-line)"
         strokeWidth="1.2"
-        fill="rgba(167,139,250,0.04)"
+        fill="var(--preview-accent)"
+        fillOpacity={0.04}
         initial={{ pathLength: 0, opacity: 0 }}
         animate={{ pathLength: 1, opacity: 1 }}
         transition={{ duration: 1.1, ease: "easeInOut" }}
@@ -203,8 +266,11 @@ export function StripePreview() {
       {pts.slice(0, -1).map((p, i) => (
         <motion.circle
           key={i}
-          cx={p.x} cy={p.y} r={i === 0 ? 5 : 3}
-          fill={i === 0 ? "#a78bfa" : `rgba(167,139,250,${0.3 + i * 0.08})`}
+          cx={p.x}
+          cy={p.y}
+          r={i === 0 ? 5 : 3}
+          fill="var(--preview-accent)"
+          fillOpacity={i === 0 ? 1 : 0.3 + i * 0.08}
           {...fadeIn(i * 0.09 + 0.1)}
         />
       ))}

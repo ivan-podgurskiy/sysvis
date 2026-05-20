@@ -2,16 +2,18 @@
 
 import { useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Volume2, VolumeX, Activity } from "lucide-react";
+import { Volume2, VolumeX, Activity, Sun, Moon } from "lucide-react";
 import { architectures, getArchitecture, type Scenario } from "@/lib/architectures";
 import { ArchitectureSelector } from "@/components/architecture-selector";
 import { GraphCanvas } from "@/components/graph-canvas";
 import { DetailPanel } from "@/components/detail-panel";
 import { useScenarioRunner } from "@/hooks/use-scenario-runner";
 import { useCursorGlow } from "@/hooks/use-cursor-glow";
+import { useTheme } from "@/hooks/use-theme";
 
 export function Visualizer() {
   useCursorGlow();
+  const { theme, toggleTheme } = useTheme();
 
   const [activeArchId, setActiveArchId] = useState(architectures[0].id);
   const [muted, setMuted] = useState(true);
@@ -20,7 +22,7 @@ export function Visualizer() {
   const { state, runScenario, stopScenario, jumpToStep } = useScenarioRunner();
 
   const panelOpen = !!state.activeScenario;
-  const PANEL_WIDTH = 380;
+  const PANEL_WIDTH = 392;
 
   const handleSelectArch = useCallback(
     (id: string) => {
@@ -52,40 +54,52 @@ export function Visualizer() {
         zIndex: 2,
       }}
     >
-      {/* ── Nav ────────────────────────────────────────────────── */}
       <nav
         style={{
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
           padding: "0 24px",
-          height: 48,
+          height: 52,
           flexShrink: 0,
-          borderBottom: "1px solid rgba(255,255,255,0.06)",
+          borderBottom: "1px solid var(--border-subtle)",
+          minWidth: 0,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            minWidth: 0,
+            overflow: "hidden",
+          }}
+        >
           <div
             style={{
-              width: 20,
-              height: 20,
+              width: 22,
+              height: 22,
               borderRadius: 6,
               background: "rgba(167,139,250,0.15)",
               border: "1px solid rgba(167,139,250,0.3)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
+              flexShrink: 0,
             }}
           >
-            <Activity style={{ width: 10, height: 10, color: "#a78bfa" }} />
+            <Activity
+              style={{ width: 11, height: 11, color: "var(--accent-violet)" }}
+            />
           </div>
           <span
             style={{
               fontFamily: "var(--font-geist-mono)",
-              fontSize: 12,
+              fontSize: "var(--text-sm)",
               fontWeight: 500,
-              color: "#fafafa",
+              color: "var(--text-primary)",
               letterSpacing: "-0.02em",
+              flexShrink: 0,
             }}
           >
             sysvis
@@ -93,8 +107,9 @@ export function Visualizer() {
           <span
             style={{
               fontFamily: "var(--font-geist-mono)",
-              fontSize: 11,
-              color: "#52525b",
+              fontSize: "var(--text-xs)",
+              color: "var(--text-tertiary)",
+              flexShrink: 0,
             }}
           >
             /
@@ -104,8 +119,11 @@ export function Visualizer() {
               key={activeArchId}
               style={{
                 fontFamily: "var(--font-geist-mono)",
-                fontSize: 11,
-                color: "#52525b",
+                fontSize: "var(--text-xs)",
+                color: "var(--text-tertiary)",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
               }}
               initial={{ opacity: 0, y: -3 }}
               animate={{ opacity: 1, y: 0 }}
@@ -117,7 +135,7 @@ export function Visualizer() {
           </AnimatePresence>
         </div>
 
-        <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, flexShrink: 0 }}>
           <AnimatePresence mode="wait">
             {state.isPlaying && (
               <motion.div
@@ -141,7 +159,7 @@ export function Visualizer() {
                     width: 6,
                     height: 6,
                     borderRadius: "50%",
-                    background: "#a78bfa",
+                    background: "var(--accent-violet)",
                   }}
                   animate={{ opacity: [1, 0.3, 1] }}
                   transition={{ repeat: Infinity, duration: 1.2 }}
@@ -149,10 +167,11 @@ export function Visualizer() {
                 <span
                   style={{
                     fontFamily: "var(--font-geist-mono)",
-                    fontSize: 9,
-                    color: "#a78bfa",
+                    fontSize: "var(--text-2xs)",
+                    color: "var(--accent-violet)",
                     letterSpacing: "0.08em",
                     textTransform: "uppercase",
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {state.activeScenario?.label}
@@ -161,24 +180,41 @@ export function Visualizer() {
             )}
           </AnimatePresence>
 
-          <MuteButton muted={muted} onToggle={() => setMuted(!muted)} />
+          <IconButton
+            label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+            onClick={toggleTheme}
+          >
+            {theme === "dark" ? (
+              <Sun style={{ width: 13, height: 13 }} />
+            ) : (
+              <Moon style={{ width: 13, height: 13 }} />
+            )}
+          </IconButton>
+          <IconButton
+            label={muted ? "Unmute" : "Mute"}
+            onClick={() => setMuted(!muted)}
+          >
+            {muted ? (
+              <VolumeX style={{ width: 13, height: 13 }} />
+            ) : (
+              <Volume2 style={{ width: 13, height: 13 }} />
+            )}
+          </IconButton>
         </div>
       </nav>
 
-      {/* ── Selector ───────────────────────────────────────────── */}
-      <div style={{ flexShrink: 0 }}>
+      <div style={{ flexShrink: 0, minWidth: 0 }}>
         <ArchitectureSelector activeId={activeArchId} onSelect={handleSelectArch} />
       </div>
 
-      {/* ── Tagline ─────────────────────────────────────────────── */}
-      <div style={{ flexShrink: 0, padding: "10px 24px 4px" }}>
+      <div style={{ flexShrink: 0, padding: "10px 24px 4px", minWidth: 0 }}>
         <AnimatePresence mode="wait">
           <motion.p
             key={activeArchId}
             style={{
               fontFamily: "var(--font-geist-sans)",
-              fontSize: 11,
-              color: "#52525b",
+              fontSize: "var(--text-xs)",
+              color: "var(--text-tertiary)",
               lineHeight: 1.5,
               margin: 0,
             }}
@@ -192,15 +228,14 @@ export function Visualizer() {
         </AnimatePresence>
       </div>
 
-      {/* ── Graph + Panel ───────────────────────────────────────── */}
       <div
         style={{
           flex: 1,
           position: "relative",
           minHeight: 0,
+          minWidth: 0,
         }}
       >
-        {/* Graph — shrinks to make room for panel, overflow hidden only here */}
         <motion.div
           animate={{
             right: panelOpen ? PANEL_WIDTH : 0,
@@ -212,6 +247,7 @@ export function Visualizer() {
             left: 0,
             bottom: 0,
             overflow: "hidden",
+            minWidth: 0,
           }}
         >
           <AnimatePresence mode="wait">
@@ -233,33 +269,42 @@ export function Visualizer() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Detail panel — outside overflow:hidden so slide-in animation works */}
         <DetailPanel
           scenario={state.activeScenario}
           currentStepIndex={state.currentStepIndex}
           isPlaying={state.isPlaying}
           onClose={stopScenario}
           onStepClick={jumpToStep}
+          width={PANEL_WIDTH}
         />
       </div>
 
-      {/* ── Scenario Controls ───────────────────────────────────── */}
       <div
         style={{
           flexShrink: 0,
           padding: "14px 24px",
-          borderTop: "1px solid rgba(255,255,255,0.06)",
+          borderTop: "1px solid var(--border-subtle)",
+          minWidth: 0,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 8, flexWrap: "wrap" }}>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            flexWrap: "wrap",
+            minWidth: 0,
+          }}
+        >
           <span
             style={{
               fontFamily: "var(--font-geist-mono)",
-              fontSize: 11,
-              color: "#52525b",
+              fontSize: "var(--text-xs)",
+              color: "var(--text-tertiary)",
               letterSpacing: "0.1em",
               textTransform: "uppercase",
               marginRight: 8,
+              flexShrink: 0,
             }}
           >
             Scenarios
@@ -283,36 +328,28 @@ export function Visualizer() {
   );
 }
 
-function MuteButton({
-  muted,
-  onToggle,
+function IconButton({
+  label,
+  onClick,
+  children,
 }: {
-  muted: boolean;
-  onToggle: () => void;
+  label: string;
+  onClick: () => void;
+  children: React.ReactNode;
 }) {
   return (
     <motion.button
-      onClick={onToggle}
+      type="button"
+      aria-label={label}
+      onClick={onClick}
       whileTap={{ scale: 0.92 }}
-      style={{
-        width: 28,
-        height: 28,
-        borderRadius: 6,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        border: "1px solid rgba(255,255,255,0.08)",
-        background: "transparent",
-        color: "#52525b",
-        cursor: "pointer",
+      className="icon-btn"
+      whileHover={{
+        borderColor: "var(--border-hover)",
+        color: "var(--text-secondary)",
       }}
-      whileHover={{ borderColor: "rgba(255,255,255,0.18)", color: "#a1a1aa" }}
     >
-      {muted ? (
-        <VolumeX style={{ width: 12, height: 12 }} />
-      ) : (
-        <Volume2 style={{ width: 12, height: 12 }} />
-      )}
+      {children}
     </motion.button>
   );
 }
@@ -343,9 +380,9 @@ function ScenarioButton({
       whileHover={
         !isActive
           ? {
-              borderColor: "rgba(255,255,255,0.22)",
-              color: "#fafafa",
-              background: "rgba(255,255,255,0.04)",
+              borderColor: "var(--border-hover)",
+              color: "var(--text-primary)",
+              background: "var(--glass-bg-hover)",
             }
           : undefined
       }
@@ -353,17 +390,18 @@ function ScenarioButton({
         position: "relative",
         padding: "8px 20px",
         borderRadius: 99,
-        fontSize: 13,
+        fontSize: "var(--text-base)",
         fontWeight: 500,
         fontFamily: "var(--font-geist-sans)",
         letterSpacing: "-0.01em",
         border: isActive
           ? "1px solid rgba(167,139,250,0.45)"
-          : "1px solid rgba(255,255,255,0.1)",
-        color: isActive ? "#c4b5fd" : "#a1a1aa",
+          : "1px solid var(--border-base)",
+        color: isActive ? "var(--accent-violet-soft)" : "var(--text-secondary)",
         background: isActive ? "rgba(167,139,250,0.12)" : "transparent",
         cursor: "pointer",
         overflow: "hidden",
+        flexShrink: 0,
       }}
     >
       {isActive && (
@@ -378,7 +416,7 @@ function ScenarioButton({
           transition={{ repeat: Infinity, duration: 1.5 }}
         />
       )}
-      <span style={{ position: "relative" }}>{label}</span>
+      <span style={{ position: "relative", whiteSpace: "nowrap" }}>{label}</span>
     </motion.button>
   );
 }

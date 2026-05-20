@@ -19,7 +19,6 @@ const PREVIEW_MAP: Record<string, React.ComponentType> = {
   stripe: StripePreview,
 };
 
-// Shorter display labels for mono tag so they don't truncate
 const SHORT_DESC: Record<string, string> = {
   twitter: "Fan-out write",
   netflix: "Streaming CDN",
@@ -92,15 +91,18 @@ function ArchCard({ arch, isActive, onSelect, index }: CardProps) {
         cursor: "pointer",
         outline: "none",
         width: "100%",
+        minWidth: 0,
         border: isActive
-          ? "1px solid rgba(167,139,250,0.38)"
-          : "1px solid rgba(255,255,255,0.07)",
+          ? "1px solid var(--border-active)"
+          : "1px solid var(--border-base)",
         background: isActive
-          ? "rgba(167,139,250,0.05)"
-          : "rgba(255,255,255,0.018)",
+          ? "rgba(167,139,250,0.06)"
+          : "var(--glass-bg)",
+        boxShadow: isActive
+          ? "0 0 0 1px rgba(124,58,237,0.08)"
+          : "0 1px 2px rgba(24,24,27,0.04)",
       }}
     >
-      {/* Active top glow */}
       {isActive && (
         <div
           style={{
@@ -108,13 +110,11 @@ function ArchCard({ arch, isActive, onSelect, index }: CardProps) {
             inset: 0,
             borderRadius: 9,
             pointerEvents: "none",
-            background:
-              "radial-gradient(ellipse 100% 55% at 50% 0%, rgba(167,139,250,0.12) 0%, transparent 70%)",
+            background: "var(--card-active-glow)",
           }}
         />
       )}
 
-      {/* Top inset highlight line */}
       <div
         style={{
           position: "absolute",
@@ -123,22 +123,23 @@ function ArchCard({ arch, isActive, onSelect, index }: CardProps) {
           right: 12,
           height: 1,
           pointerEvents: "none",
-          background:
-            "linear-gradient(to right, transparent, rgba(255,255,255,0.09), transparent)",
+          background: "var(--card-inset-line)",
         }}
       />
 
-      {/* Label row */}
-      <div style={{ marginBottom: 6 }}>
+      <div style={{ marginBottom: 6, minWidth: 0 }}>
         <span
           style={{
             display: "block",
             fontFamily: "var(--font-geist-mono)",
-            fontSize: 9,
+            fontSize: "var(--text-2xs)",
             letterSpacing: "0.08em",
             textTransform: "uppercase",
-            color: isActive ? "#a78bfa" : "#52525b",
+            color: isActive ? "var(--accent-violet)" : "var(--text-tertiary)",
             marginBottom: 2,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
           {SHORT_DESC[arch.id] ?? arch.description}
@@ -147,18 +148,20 @@ function ArchCard({ arch, isActive, onSelect, index }: CardProps) {
           style={{
             display: "block",
             fontFamily: "var(--font-geist-sans)",
-            fontSize: 13,
+            fontSize: "var(--text-base)",
             fontWeight: 600,
             letterSpacing: "-0.025em",
-            color: isActive ? "#fafafa" : "#a1a1aa",
+            color: isActive ? "var(--text-primary)" : "var(--text-secondary)",
             lineHeight: 1.2,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
           }}
         >
           {arch.label}
         </span>
       </div>
 
-      {/* Mini preview */}
       <div
         style={{
           opacity: isActive ? 0.85 : 0.45,
@@ -189,9 +192,10 @@ export function ArchitectureSelector({
     <div
       style={{
         display: "grid",
-        gridTemplateColumns: "repeat(5, 1fr)",
+        gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
         gap: 8,
         padding: "14px 24px 0",
+        minWidth: 0,
       }}
     >
       {architectures.map((arch, i) => (

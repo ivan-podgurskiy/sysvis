@@ -21,12 +21,23 @@ import { getBezierPath } from "@xyflow/react";
 import CustomNode, { type CustomNodeData } from "./custom-node";
 import CustomEdge from "./custom-edge";
 import { Comet } from "@/components/particles/comet";
+import { useTheme } from "@/hooks/use-theme";
 import type { Architecture, ScenarioStep } from "@/lib/architectures";
 
 const nodeTypes = { custom: CustomNode };
 const edgeTypes = { custom: CustomEdge };
 
-const NODE_HEIGHT_BY_SIZE: Record<string, number> = { sm: 68, md: 78, lg: 90 };
+const CANVAS_DOT = {
+  dark: "rgba(255,255,255,0.025)",
+  light: "rgba(24,24,27,0.1)",
+} as const;
+
+function CanvasBackground() {
+  const { theme } = useTheme();
+  return <Background color={CANVAS_DOT[theme]} gap={40} size={1} />;
+}
+
+const NODE_HEIGHT_BY_SIZE: Record<string, number> = { sm: 72, md: 84, lg: 96 };
 const NODE_WIDTH_BY_SIZE: Record<string, number> = { sm: 160, md: 185, lg: 210 };
 
 interface ActiveParticle {
@@ -39,16 +50,16 @@ function ZoomControls() {
   const { zoomIn, zoomOut } = useReactFlow();
 
   const btnStyle: React.CSSProperties = {
-    width: 28,
-    height: 28,
+    width: 30,
+    height: 30,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    background: "rgba(255,255,255,0.04)",
-    border: "1px solid rgba(255,255,255,0.1)",
+    background: "var(--glass-bg)",
+    border: "1px solid var(--border-base)",
     borderRadius: 6,
     cursor: "pointer",
-    color: "#71717a",
+    color: "var(--text-muted)",
   };
 
   return (
@@ -65,7 +76,7 @@ function ZoomControls() {
     >
       <motion.button
         style={btnStyle}
-        whileHover={{ borderColor: "rgba(255,255,255,0.22)", color: "#a1a1aa" }}
+        whileHover={{ borderColor: "var(--border-hover)", color: "var(--text-secondary)" }}
         whileTap={{ scale: 0.9 }}
         onClick={() => zoomIn({ duration: 200 })}
       >
@@ -73,7 +84,7 @@ function ZoomControls() {
       </motion.button>
       <motion.button
         style={btnStyle}
-        whileHover={{ borderColor: "rgba(255,255,255,0.22)", color: "#a1a1aa" }}
+        whileHover={{ borderColor: "var(--border-hover)", color: "var(--text-secondary)" }}
         whileTap={{ scale: 0.9 }}
         onClick={() => zoomOut({ duration: 200 })}
       >
@@ -288,7 +299,7 @@ export function GraphCanvas({
         proOptions={{ hideAttribution: true }}
         style={{ background: "transparent" }}
       >
-        <Background color="rgba(255,255,255,0.025)" gap={40} size={1} />
+        <CanvasBackground />
         <FlowInner
           archNodes={architecture.nodes}
           activeStep={activeStep}
