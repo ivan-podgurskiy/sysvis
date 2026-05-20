@@ -113,10 +113,12 @@ function ParticleLayer({
     const srcH = NODE_HEIGHT_BY_SIZE[srcArch?.size ?? "md"];
     const tgtH = NODE_HEIGHT_BY_SIZE[tgtArch?.size ?? "md"];
 
-    const sx = src.position.x * zoom + vpX + srcW * zoom;
-    const sy = src.position.y * zoom + vpY + (srcH / 2) * zoom;
-    const tx = tgt.position.x * zoom + vpX;
-    const ty = tgt.position.y * zoom + vpY + (tgtH / 2) * zoom;
+    // Flow-space path — viewport transform is applied on the parent <g> so
+    // particles stay aligned when fitView runs during resize / panel open.
+    const sx = src.position.x + srcW;
+    const sy = src.position.y + srcH / 2;
+    const tx = tgt.position.x;
+    const ty = tgt.position.y + tgtH / 2;
 
     const [d] = getBezierPath({
       sourceX: sx,
@@ -129,7 +131,7 @@ function ParticleLayer({
 
     const id = `p-${particleIdRef.current++}`;
     setParticles((prev) => [...prev, { id, step: activeStep, pathD: d }]);
-  }, [activeStep, archNodes, getNodes, vpX, vpY, zoom]);
+  }, [activeStep, archNodes, getNodes]);
 
   const removeParticle = useCallback((id: string) => {
     setParticles((prev) => prev.filter((p) => p.id !== id));
@@ -150,18 +152,20 @@ function ParticleLayer({
         overflow: "visible",
       }}
     >
-      <AnimatePresence>
-        {particles.map((p) => (
-          <Comet
-            key={p.id}
-            pathD={p.pathD}
-            color={p.step.color}
-            duration={700}
-            onComplete={() => removeParticle(p.id)}
-            svgRef={svgRef}
-          />
-        ))}
-      </AnimatePresence>
+      <g transform={`matrix(${zoom}, 0, 0, ${zoom}, ${vpX}, ${vpY})`}>
+        <AnimatePresence>
+          {particles.map((p) => (
+            <Comet
+              key={p.id}
+              pathD={p.pathD}
+              color={p.step.color}
+              duration={700}
+              onComplete={() => removeParticle(p.id)}
+              svgRef={svgRef}
+            />
+          ))}
+        </AnimatePresence>
+      </g>
     </svg>
   );
 }
