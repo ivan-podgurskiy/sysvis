@@ -63,9 +63,9 @@ const LABEL_ICONS: Record<string, React.ComponentType<{ style?: React.CSSPropert
 };
 
 const SIZE_DIMS: Record<string, { w: number; px: number; py: number }> = {
-  sm: { w: 160, px: 12, py: 12 },
-  md: { w: 185, px: 14, py: 13 },
-  lg: { w: 210, px: 16, py: 15 },
+  sm: { w: 160, px: 12, py: 13 },
+  md: { w: 185, px: 14, py: 14 },
+  lg: { w: 210, px: 16, py: 16 },
 };
 
 export interface CustomNodeData {

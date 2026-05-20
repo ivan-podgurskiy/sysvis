@@ -37,7 +37,7 @@ function CanvasBackground() {
   return <Background color={CANVAS_DOT[theme]} gap={40} size={1} />;
 }
 
-const NODE_HEIGHT_BY_SIZE: Record<string, number> = { sm: 72, md: 84, lg: 96 };
+const NODE_HEIGHT_BY_SIZE: Record<string, number> = { sm: 76, md: 88, lg: 100 };
 const NODE_WIDTH_BY_SIZE: Record<string, number> = { sm: 160, md: 185, lg: 210 };
 
 interface ActiveParticle {

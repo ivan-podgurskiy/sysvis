@@ -1,6 +1,17 @@
 @import "tailwindcss";
 
 @layer base {
+  /* Typography — shared by both themes (must not live inside theme blocks) */
+  html {
+    --text-2xs: 11px;
+    --text-xs: 13px;
+    --text-sm: 14px;
+    --text-base: 16px;
+    --text-md: 17px;
+    --text-lg: 20px;
+    --text-xl: 22px;
+  }
+
   /* Dark default — never use bare :root (always wins over attribute selectors) */
   html:not([data-theme="light"]) {
     color-scheme: dark;
@@ -80,15 +91,6 @@
     --preview-accent: #a78bfa;
     --preview-line: rgba(167, 139, 250, 0.35);
     --preview-cyan: rgba(34, 211, 238, 0.35);
-
-    /* Typography — slightly larger than before */
-    --text-2xs: 10px;
-    --text-xs: 12px;
-    --text-sm: 13px;
-    --text-base: 14px;
-    --text-md: 15px;
-    --text-lg: 18px;
-    --text-xl: 19px;
   }
 
   html[data-theme="light"] {
@@ -187,6 +189,8 @@ body {
   height: 100%;
   margin: 0;
   padding: 0;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
